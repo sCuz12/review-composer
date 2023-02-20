@@ -1,9 +1,22 @@
 import { Select, Text, TextInput, Title } from '@mantine/core'
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
+import {ReviewsContext} from '../../store/reviewsContext';
 
 type Props = {}
 
 export default function Stepone({ }: Props) {
+
+    const {reviewObject,updateReviewObject} = useContext(ReviewsContext)
+
+    const handleFirstNameChange = (e:any) => {
+        const newReviewObject = {
+            ...reviewObject,
+            revieweeName : e.target.value
+        }
+        updateReviewObject(newReviewObject)
+    }
+    //TODO : Handle last name
+
     return (
         <div className='flex flex-col w-full gap-12'>
             <div className='flex flex-col gap-4'>
@@ -13,10 +26,10 @@ export default function Stepone({ }: Props) {
             {/**Form */}
             <div className='grid grid-cols-2 gap-8'>
                 <div>
-                    <TextInput  label="Reviewee Name"></TextInput>
+                    <TextInput  label="Reviewee Name"  onChange={handleFirstNameChange}></TextInput>
                 </div>
                 <div>
-                    <TextInput label="Reviewee Last Name"/>
+                    <TextInput label="Reviewee Last Name" />
                 </div>
                 <div className=''>
                         <Select

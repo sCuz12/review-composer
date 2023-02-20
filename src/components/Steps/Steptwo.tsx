@@ -1,5 +1,6 @@
+import { ReviewsContext } from '@/store/reviewsContext';
 import { Flex, Grid, Text, Title } from '@mantine/core'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import RevieweeTypeCard from '../Cards/RevieweeTypeCard'
 
 
@@ -10,13 +11,21 @@ type Props = {
 export default function Steptwo({ }: Props) {
     const [activeButtonIndex, setActiveButtonIndex] = useState(0);
 
+    const {reviewObject,updateReviewObject} = useContext(ReviewsContext)
+
     // useEffect(()=>{
     //     console.log(activeButtonIndex)
     // },[activeButtonIndex])
 
     const revieweeTypeOnClick = (id:number) : any  => {
         setActiveButtonIndex(id)
+        const newReviewObject = {
+            ...reviewObject,
+            revieweeType : id === 1 ? "guest" : "host"
+        }
+        updateReviewObject(newReviewObject)
     }
+    
     return (
         <div className='flex flex-col w-full gap-12'>
             <div className='flex flex-col gap-4'>

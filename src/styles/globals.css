@@ -36,4 +36,9 @@ white-font-color {
   }
 }
 
+.reviewIcon{
+  cursor: pointer;
+  transition: color 200ms;
+}
+
 
