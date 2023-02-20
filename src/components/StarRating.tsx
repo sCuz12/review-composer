@@ -5,14 +5,16 @@ import { Flame } from 'tabler-icons-react';
 type Props = {
     title: string,
     setRating: any,
-    rating: number
+    rating: number,
+    description? : string,
 }
 
-export default function StarRating({ title, setRating, rating }: Props) {
+export default function StarRating({ title, setRating, rating,description }: Props) {
     return (
         <div className='flex flex-col items-center gap-2'>
 
             <Text fz="xl" >{title}</Text>
+            <Text fz="sm" italic color="gray"> {description}</Text>
             <div className='flex'>
                 {[...Array(5)].map((flame, i) => {
                     const ratingValue = i + 1;
