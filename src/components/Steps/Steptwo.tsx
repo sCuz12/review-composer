@@ -13,9 +13,7 @@ export default function Steptwo({ }: Props) {
 
     const {reviewObject,updateReviewObject} = useContext(ReviewsContext)
 
-    // useEffect(()=>{
-    //     console.log(activeButtonIndex)
-    // },[activeButtonIndex])
+  
 
     const revieweeTypeOnClick = (id:number) : any  => {
         setActiveButtonIndex(id)

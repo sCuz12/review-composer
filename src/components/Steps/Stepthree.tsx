@@ -8,6 +8,7 @@ type Props = {
 }
 
 export default function Stepthree({ revieweeType}: Props) {
+
   return (
     <>
     <div className='flex flex-col gap-4'>
@@ -15,8 +16,8 @@ export default function Stepthree({ revieweeType}: Props) {
       <Text className='text-slate-500'>Share your experience </Text>
     </div>
     <div>
-      {revieweeType == "guest" && <GuestReviewForm/>}
-      {revieweeType == "host" && <HostReviewForm/>}
+      {revieweeType === "guest" && <GuestReviewForm/>}
+      {revieweeType === "host" && <HostReviewForm/>}
     </div>
     </>
   )
