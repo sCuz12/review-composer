@@ -4,6 +4,7 @@ export interface IreviewProcessObject {
     revieweeName: string;
     revieweeType: string;
     ratings: ReviewType[];
+    disableButton: boolean;
 
   }
   

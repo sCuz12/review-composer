@@ -26,7 +26,7 @@ export default function Stepone({ }: Props) {
             {/**Form */}
             <div className='grid grid-cols-2 gap-8'>
                 <div>
-                    <TextInput  label="Reviewee Name"  onChange={handleFirstNameChange}></TextInput>
+                    <TextInput required label="Reviewee Name"  onChange={handleFirstNameChange}></TextInput>
                 </div>
                 <div>
                     <TextInput label="Reviewee Last Name" />
@@ -42,17 +42,7 @@ export default function Stepone({ }: Props) {
                             ]}
                         />
                 </div>
-                <div className=''>
-                        <Select
-                            label="Reviewee Type"
-                            placeholder="Pick one"
-                            data={[
-                                { value: 'male', label: 'Male' },
-                                { value: 'female', label: 'Female' },
-                                { value: 'many', label: 'Many' },
-                            ]}
-                        />
-                </div>
+              
             </div>
         </div>
     )

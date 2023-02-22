@@ -10,20 +10,18 @@ type Props = {
 
 export default function Steptwo({ }: Props) {
     const [activeButtonIndex, setActiveButtonIndex] = useState(0);
+    const { reviewObject, updateReviewObject } = useContext(ReviewsContext)
 
-    const {reviewObject,updateReviewObject} = useContext(ReviewsContext)
-
-  
-
-    const revieweeTypeOnClick = (id:number) : any  => {
+    const revieweeTypeOnClick = (id: number): any => {
         setActiveButtonIndex(id)
         const newReviewObject = {
             ...reviewObject,
-            revieweeType : id === 1 ? "guest" : "host"
+            revieweeType: id === 1 ? "guest" : "host",
+            ratings: []
         }
         updateReviewObject(newReviewObject)
     }
-    
+
     return (
         <div className='flex flex-col w-full gap-12'>
             <div className='flex flex-col gap-4'>
@@ -32,12 +30,10 @@ export default function Steptwo({ }: Props) {
             </div>
 
             <Flex className="items-center" direction={{ base: 'column', sm: 'row' }}
-                gap={{ base: 'sm', sm: 'xl' }}  justify={{ sm: 'center' }}>
-                <RevieweeTypeCard selected={activeButtonIndex === 1} setSelected={()=>revieweeTypeOnClick(1)} revieweeType='guest' />
-                <RevieweeTypeCard selected= {activeButtonIndex === 2} setSelected={()=> revieweeTypeOnClick(2)} revieweeType='host' />
+                gap={{ base: 'sm', sm: 'xl' }} justify={{ sm: 'center' }}>
+                <RevieweeTypeCard selected={activeButtonIndex === 1} setSelected={() => revieweeTypeOnClick(1)} revieweeType='guest' />
+                <RevieweeTypeCard selected={activeButtonIndex === 2} setSelected={() => revieweeTypeOnClick(2)} revieweeType='host' />
             </Flex>
-
-
         </div>
     )
 }

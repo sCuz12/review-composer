@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { AppShell, Button, Header, Navbar } from '@mantine/core'
 import SideNavbar from '@/components/Layout/SideNavbar'
 import Stepone from '@/components/Steps/Stepone'
@@ -11,18 +11,50 @@ type Props = {}
 
 export default function generate({ }: Props) {
 
-    const [activePage, setActive] = useState(1)
-
+    const [activePage, setActive] = useState(1);
+    const [disableButton, setDisableButton] = useState<boolean>(false)
+    const [disableGenerateBtn,setDisableGenerateBtn] = useState<boolean>(true)
+    //This constans represents the number of ratings (communication etc etc)
+    const NUMBER_OF_RATINGS = 3;
 
     const { reviewObject, updateReviewObject } = useContext(ReviewsContext)
 
     const nextStep = () => setActive((current) => (current < 3 ? current + 1 : current))
     const prevStep = () => setActive((current) => (current > 0 ? current - 1 : current))
 
-    console.log(reviewObject.revieweeType);
+
+    useEffect(() => {
+    
+        if (activePage == 1) {
+
+            if(!reviewObject.revieweeName) {
+                setDisableButton(true);
+            } else {
+                setDisableButton(false);
+            }
+          
+        } 
+
+        if (activePage == 2) {
+            if (!reviewObject.revieweeType) {
+                console.log("asdsa");
+                setDisableButton(true);
+            } else {
+                console.log("asdas");
+                setDisableButton(false);
+            }
+        }
+    }, [reviewObject.revieweeName,activePage,reviewObject.revieweeType])
+
+    useEffect(() => {
+        //all rating steps are completed 
+        if (reviewObject.ratings.length === NUMBER_OF_RATINGS) {
+            setDisableGenerateBtn(false)
+        }
+
+    }, [reviewObject.ratings])
 
     return (
-
 
         <AppShell
             padding="md"
@@ -33,7 +65,7 @@ export default function generate({ }: Props) {
             })}
         >
             {/* Your application here */}
-            <div className='h-full'>
+            <div className='h-screen '>
                 <div className='py-10 '>
                     {activePage === 1 && <Stepone />}
                     {activePage === 2 && <Steptwo />}
@@ -41,7 +73,12 @@ export default function generate({ }: Props) {
 
                 </div>
                 <div className='flex gap-2'>
-                    <Button className='bg-secondary-color' radius="md" onClick={nextStep}>Next Step</Button>
+                    {activePage == 3 ? (
+                        <Button disabled={disableGenerateBtn}className='bg-secondary-color' radius="md" >Generate Review</Button>
+                    ) : (
+                        <Button disabled={disableButton} className='bg-secondary-color' radius="md" onClick={nextStep}>Next Step</Button>
+                    )}
+
 
                     {activePage != 1 && (
                         <Button onClick={prevStep} variant='outline' color='red' className="text-black hover:text-white hover:bg-red-300" radius="md" >
