@@ -4,13 +4,14 @@ import { IreviewProcessObject } from "@/interfaces/IreviewProcessObject";
 import React, { createContext, useState } from "react"
 
 const ReviewsContext = createContext<IcontextType>({
-  reviewObject: { revieweeName: '', revieweeType: '', ratings: [] },
+  reviewObject: { revieweeName: '', revieweeType: '', ratings: [] , revieweeGender:''},
   updateReviewObject: () => { },
 });
 
 const MyProvider: React.FC<IproviderType> = (props) => {
   const [reviewObject, setReviewObject] = useState<IreviewProcessObject>({
     revieweeName: '',
+    revieweeGender : '',
     revieweeType: '',
     ratings: [],
   });

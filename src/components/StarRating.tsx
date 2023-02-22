@@ -20,7 +20,7 @@ export default function StarRating({ title, setRating, rating,description }: Pro
                     const ratingValue = i + 1;
 
                     return (
-                        <label>
+                        <label key={i}>
                             <input className='hidden' type="radio" value={ratingValue} onClick={() => { setRating(ratingValue) }} />
                             {
                                 ratingValue <= rating ? (

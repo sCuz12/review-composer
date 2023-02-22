@@ -11,9 +11,11 @@ type Props = {}
 
 export default function generate({ }: Props) {
 
-    const [activePage, setActive] = useState(1);
+    const [activePage, setActive] = useState(3);
     const [disableButton, setDisableButton] = useState<boolean>(false)
     const [disableGenerateBtn,setDisableGenerateBtn] = useState<boolean>(true)
+
+
     //This constans represents the number of ratings (communication etc etc)
     const NUMBER_OF_RATINGS = 3;
 
@@ -27,12 +29,18 @@ export default function generate({ }: Props) {
     
         if (activePage == 1) {
 
-            if(!reviewObject.revieweeName) {
+            if (!reviewObject.revieweeName) {
                 setDisableButton(true);
             } else {
                 setDisableButton(false);
             }
-          
+
+            if (!reviewObject.revieweeGender) {
+                setDisableButton(true);
+            } else {
+                setDisableButton(false);
+            }
+
         } 
 
         if (activePage == 2) {
@@ -44,7 +52,7 @@ export default function generate({ }: Props) {
                 setDisableButton(false);
             }
         }
-    }, [reviewObject.revieweeName,activePage,reviewObject.revieweeType])
+    }, [reviewObject.revieweeName,activePage,reviewObject.revieweeType,reviewObject.revieweeGender])
 
     useEffect(() => {
         //all rating steps are completed 
@@ -53,6 +61,18 @@ export default function generate({ }: Props) {
         }
 
     }, [reviewObject.ratings])
+
+    const handleGenerateReviewSubmitForm = async () => {
+        const response = await fetch('/api/review-generator',{
+            method: 'POST',
+            body : JSON.stringify(reviewObject),
+            headers :{
+                "Content-Type" : 'application/json'
+            }
+        })
+        const data = await response.json()
+        console.log(data)
+    }
 
     return (
 
@@ -74,7 +94,7 @@ export default function generate({ }: Props) {
                 </div>
                 <div className='flex gap-2'>
                     {activePage == 3 ? (
-                        <Button disabled={disableGenerateBtn}className='bg-secondary-color' radius="md" >Generate Review</Button>
+                        <Button onClick={handleGenerateReviewSubmitForm} disabled={disableGenerateBtn}className='bg-secondary-color' radius="md" >Generate Review</Button>
                     ) : (
                         <Button disabled={disableButton} className='bg-secondary-color' radius="md" onClick={nextStep}>Next Step</Button>
                     )}

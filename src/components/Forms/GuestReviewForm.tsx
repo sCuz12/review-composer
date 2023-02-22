@@ -97,7 +97,7 @@ function GuestReviewForm({ }: Props) {
             <div className='flex flex-col w-1/2 gap-8 p-20 bg-white border shadow-2xl rounded-xl'>
                 <StarRating key={1} title="Communication" setRating={communicationStarHandler} rating={communicationRating} />
                 <StarRating key={2} title="Respect of House" setRating={respectOfHouseHandler} rating={houseRespectRating} />
-                <StarRating key={2} title="Cleanliness of house" setRating={cleanlinessChangeHandler} rating={cleanlinessRating} />
+                <StarRating key={3} title="Cleanliness of house" setRating={cleanlinessChangeHandler} rating={cleanlinessRating} />
             </div>
         </div>
 

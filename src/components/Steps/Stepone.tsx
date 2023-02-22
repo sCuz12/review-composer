@@ -17,6 +17,14 @@ export default function Stepone({ }: Props) {
     }
     //TODO : Handle last name
 
+    const handleGenderChange = (value:string) => {
+        const newReviewObject = {
+            ...reviewObject,
+            revieweeGender : value
+        }
+        updateReviewObject(newReviewObject)
+    }
+
     return (
         <div className='flex flex-col w-full gap-12'>
             <div className='flex flex-col gap-4'>
@@ -32,15 +40,17 @@ export default function Stepone({ }: Props) {
                     <TextInput label="Reviewee Last Name" />
                 </div>
                 <div className=''>
-                        <Select
-                            label="Gender"
-                            placeholder="Pick one"
-                            data={[
-                                { value: 'male', label: 'Male' },
-                                { value: 'female', label: 'Female' },
-                                { value: 'many', label: 'Many' },
-                            ]}
-                        />
+                    <Select
+                        required
+                        label="Gender"
+                        placeholder="Pick one"
+                        data={[
+                            { value: 'male', label: 'Male' },
+                            { value: 'female', label: 'Female' },
+                            { value: 'many', label: 'Many' },
+                        ]}
+                        onChange={handleGenderChange}
+                    />
                 </div>
               
             </div>
