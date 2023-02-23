@@ -1,4 +1,4 @@
-import { PromptBuilderInterface } from "./promptBuilderInterface";
+import { PromptBuilderInterface } from "./PromptBuilderInterface";
 
 //This builder class helps in building dynamically Prompts
 export class PromptBuilder implements PromptBuilderInterface {
