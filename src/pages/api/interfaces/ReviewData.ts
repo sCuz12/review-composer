@@ -4,5 +4,6 @@ export interface ReviewData {
     revieweeName: string;
     revieweeType: string;
     revieweeGender: string;
+    revieweeLastname: string;
     ratings: Rating[];
   }

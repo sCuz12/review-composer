@@ -1,10 +1,12 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { PromptBuilder } from './builder/PromptBuilder';
 const { Configuration, OpenAIApi } = require("openai");
 import { ReviewData } from './interfaces/ReviewData';
 
+
 type Data = {
-  name: string
+  data: string
 }
 
 export default async function handler(
@@ -12,14 +14,22 @@ export default async function handler(
   res: NextApiResponse<Data>
 ) {
 
-  const {revieweeName,revieweeType,ratings,revieweeGender}:ReviewData = req.body
+  const {revieweeName,revieweeType,ratings,revieweeGender,revieweeLastname}:ReviewData = req.body
 
-  const prompt = `Please give me airbnb review on ${revieweeName} the ${revieweeType}:\n\n`;
-  const reviews = ratings.map((rating) => `${rating.name}: ${rating.rating}\n`).join('');
+  //const prompt = `Please give me airbnb review for a ${revieweeType} called  ${revieweeName}`;
+
+  const prompt = new PromptBuilder()
+  .setName(revieweeName)
+  .setLastName(revieweeLastname)
+  .setRevieweeType(revieweeType)
+  .setReviewRatings(ratings)
+  .generatePrompt();
+
+  console.log(prompt)
 
   //TODO: Move it to globals
-  const apiKey = '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'; // Replace this with your OpenAI API key
-  const model = 'text-davinci-002'; // Replace this with the name of the OpenAI model you want to use
+  const apiKey = process.env.OPENAI_API_KEY;
+  const model = 'text-davinci-003'; 
 
   const configuration = new Configuration({
     apiKey: apiKey
@@ -27,19 +37,24 @@ export default async function handler(
   
   const openai = new OpenAIApi(configuration);
 
-  try {
-    const completion = await openai.createCompletion({
+  async function requestDataFromOpenai ()  {
+    const response = await openai.createCompletion({
       model: model,
-      prompt: prompt + reviews,
-      maxTokens: 256,
-      temperature: 0.5
-    });
-
-    console.log(completion.data.choices[0].text);
-  }catch(error) {
-    console.log("Error communicating with Openai")
+      prompt: prompt,
+      max_tokens:500 
+    })
+    console.log(response.data.choices[0].text)
+    return response.data.choices[0].text;
   }
-
-
+  
+  //call
+  requestDataFromOpenai() 
+  .then((text)=>{
+    const response : Data = {'data':text};
+    res.status(200).send(response)
+  })
+  .catch((err)=>{
+    console.log(err);
+  })
 
 }
